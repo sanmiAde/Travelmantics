@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +28,13 @@ class MainActivity : AppCompatActivity() {
         firebaseDatabase = FirebaseDatabase.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
 
+        //TODO use no activity ui as the gate for checking authentication status.
         initFirebaseAuthStateListener()
+
+        btn_new_travel_data.setOnClickListener {
+            val intent = NewDealActivity.initUserActivity(this)
+            startActivity(intent)
+        }
 
     }
 
@@ -38,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                     AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setIsSmartLockEnabled(false)
+                        .setLogo(R.drawable.ic_launcher_background)
                         .setAvailableProviders(providers)
                         .build(),
                     RC_SIGN_IN
