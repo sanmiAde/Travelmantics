@@ -1,3 +1,3 @@
 package com.sanmiaderibigbe.travelmantics
 
-data class TravelDeals( val description : String, val location : String, val cost : String, val imageUrl : String )
+data class TravelDeals( var description : String = "", var location : String = "", var cost : String ="", var imageUrl : String = "" )

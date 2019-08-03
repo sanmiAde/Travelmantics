@@ -71,22 +71,24 @@ class NewDealActivity : AppCompatActivity() {
                     .addOnFailureListener {
                         Toast.makeText(this, "${it.message.toString()}", Toast.LENGTH_SHORT).show()
                     }.addOnSuccessListener {
+                        it.storage.downloadUrl.addOnSuccessListener {
+                            val travelDeal = TravelDeals(
+                                description = descriptionInput.getData(),
+                                location = locationTextInput.getData(),
+                                cost = costTextInput.getData(),
+                                imageUrl = it.toString()
+                            )
+                            firebaseDatabase.reference.child("deals").push().setValue(travelDeal)
+                                .addOnFailureListener {
+                                    Toast.makeText(this, "${it.message.toString()}", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnSuccessListener {
+                                    locationTextInput.editText?.setText("")
+                                    costTextInput.editText?.setText("")
+                                    descriptionInput.editText?.setText("")
+                                }
 
-                        val travelDeal = TravelDeals(
-                            description = descriptionInput.getData(),
-                            location = locationTextInput.getData(),
-                            cost = costTextInput.getData(),
-                            imageUrl = it.uploadSessionUri.toString()
-                        )
-                        firebaseDatabase.reference.child("deals").push().setValue(travelDeal)
-                            .addOnFailureListener {
-                                Toast.makeText(this, "${it.message.toString()}", Toast.LENGTH_SHORT).show()
-                            }
-                            .addOnSuccessListener {
-                                locationTextInput.editText?.setText("")
-                                costTextInput.editText?.setText("")
-                                descriptionInput.editText?.setText("")
-                            }
+                        }
 
                     }
 
